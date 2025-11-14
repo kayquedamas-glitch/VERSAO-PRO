@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
+    <title>Synapse PRO - Acesso Vitalício</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase Versão 8 (Clássica) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-analytics.js"></script>
+
+    <!-- 
+      !!! IMPORTANTE !!!
+      COLE AQUI O SEU 'firebaseConfig' REAL (o mesmo do index.html) 
+    -->
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyA0CxDk9z4RZnuv4BV04TjP252mXuny_wE", // Exemplo, use o seu real
+            authDomain: "synapse-e14d0.firebaseapp.com",
+            projectId: "synapse-e14d0",
+            storageBucket: "synapse-e14d0.firebasestorage.app",
+            messagingSenderId: "945597083388",
+            appId: "1:945597083388:web:b3ab20432ed21696837179",
+            measurementId: "G-XFDQ7B4BTC"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+</head>
+
+<body class="h-full">
+
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <div class="app-layout">
+
+        <!-- ===== SIDEBAR (VERSÃO PRO) ===== -->
+        <aside id="sidebar" class="sidebar p-4">
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center space-x-2 text-2xl font-black brutal-red tracking-wider">
+                    <span>Synapse PRO</span> <!-- Título PRO -->
+                </div>
+                <button id="closeSidebarBtn" class="close-sidebar-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <nav class="mb-8">
+                <h3 class="text-gray-400 text-xs uppercase font-bold mb-3">Arsenal IA (Completo)</h3>
+                
+                <!-- Ferramentas (Todas desbloqueadas) -->
+                <a id="toolDiagnostico" class="tool-item active"><i class="fas fa-heart-pulse fa-fw mr-3"></i>Diagnóstico Bruto</a>
+                <a id="toolEstrategista" class="tool-item"><i class="fas fa-brain fa-fw mr-3"></i>Estrategista Diário</a>
+                <a id="toolGerente" class="tool-item"><i class="fas fa-battery-half fa-fw mr-3"></i>Gerente de Energia</a>
+                <a id="toolMestre" class="tool-item"><i class="fas fa-gavel fa-fw mr-3"></i>Mestre da Disciplina</a>
+                <a id="toolAuditor" class="tool-item"><i class="fas fa-clipboard-check fa-fw mr-3"></i>Auditor de Hábitos</a>
+            </nav>
+
+            <div class="flex-grow">
+                <!-- Histórico removido -->
+            </div>
+
+            <!-- Footer da Sidebar PRO (Sem demo) -->
+            <div class="mt-auto pt-6">
+                <button id="newChatBtn"
+                    class="w-full bg-[#333] text-white font-bold py-3 px-4 rounded-lg hover:bg-[#555] transition uppercase flex items-center justify-center text-sm">
+                    <i class="fas fa-plus mr-2"></i> Novo Chat
+                </button>
+                 <a href="pag.html" target="_blank"
+                    class="w-full bg-gray-700 text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-600 transition uppercase flex items-center justify-center text-sm mt-2">
+                    <i class="fas fa-info-circle fa-fw mr-3"></i> Sobre
+                </a>
+            </div>
+        </aside>
+
+        <!-- ===== ÁREA DO CHAT (LAYOUT CORRIGIDO) ===== -->
+        <main class="chat-area">
+
+            <!-- 1. CABEÇALHO DO CHAT (Layout de 1 linha) -->
+            <div id="chatHeader" class="p-3 border-b border-[#333] flex items-center bg-[#1a1a1a] shadow-md">
+                <button id="openSidebarBtn" class="open-sidebar-btn text-white text-xl p-2 mr-3">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="flex-grow">
+                    <h3 id="chatTitle" class="text-lg font-bold uppercase brutal-red"></h3>
+                    <!-- O subtítulo foi removido do header -->
+                </div>
+            </div>
+
+            <!-- 2. ÁREA DE MENSAGENS (LIMPA) -->
+            <!-- Agora está vazia, sem o "chatIntroBlock" -->
+            <div id="messagesContainer" class="chat-messages p-5 w-full max-w-3xl mx-auto">
+                <!-- As mensagens do app-pro.js entrarão aqui -->
+                <!-- A bolha inicial de "Confesse..." foi removida (em app-pro.js) -->
+            </div>
+
+            <!-- 3. ÁREA DE INPUT (SEM BLOQUEIO) -->
+            <div class="chat-input-container">
+                <div class="w-full max-w-3xl mx-auto flex items-center bg-[#333] rounded-lg p-2">
+                    
+                    <!-- Wrapper do Input (Sempre visível) -->
+                    <div id="textInputWrapper" class="flex items-center w-full">
+                        <textarea id="chatInput" rows="1"
+                            class="w-full flex-grow bg-transparent border-none outline-none resize-none px-3 py-2 text-base"
+                            placeholder="Digite sua mensagem aqui..."></textarea>
+                        <button id="sendBtn"
+                            class="bg-brutal-red text-white p-3 rounded-lg hover:bg-red-800 transition ml-2">
+                            <i class="fas fa-paper-plane"></i>
+                            <div id="loadingSpinner" class="hidden"></div>
+                        </button>
+                    </div>
+
+                    <!-- O 'upgradeBlock' não existe neste arquivo -->
+
+                </div>
+            </div>
+        </main>
+
+    </div>
+    
+    <!-- SCRIPT CORRETO DA VERSÃO PRO -->
+    <script src="script.js"></script>
+</body>
+</html>
